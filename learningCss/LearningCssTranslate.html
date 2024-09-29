@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            display: flex;
+        }
+
+        #box1 {
+            background-color: red;
+            width: 200px;
+            height: 200px;
+        }
+
+        #box2 {
+            background-color: green;
+            width: 200px;
+            height: 200px;
+        }
+
+        #box3 {
+            background-color: blue;
+            width: 200px;
+            height: 200px;
+        }
+
+        #box1:hover {
+            transform: translate(600px,0);
+        }
+
+        #box2:hover {
+            transform: translate(100%,100%);
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <div id="box1"></div>
+    <div id="box2"></div>
+    <div id="box3"></div>
+</div>
+<div>
+    <p>将鼠标放在色块上观察</p>
+</div>
+</body>
+</html>

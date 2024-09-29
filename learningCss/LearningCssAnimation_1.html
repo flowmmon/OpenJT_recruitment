@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .flex {
+        display: flex;
+    }
+
+    #box1 {
+        background-color: pink;
+        width:200px;
+        height:200px;
+        margin: 0 10px 0 0;
+    }
+
+    #box2 {
+        background-color: orange;
+        width: 200px;
+        height: 200px;
+        margin: 0 0 0 10px;
+    }
+
+    #box1:hover {
+        animation-name:regular_expanding;
+        animation-duration: 2s;    
+    }
+
+    #box2:hover {
+        animation-name:irregular_expanding;
+        animation-duration: 2s;  
+    }
+
+    @keyframes regular_expanding{
+        from{
+            width: 200px;
+            height:200px;
+        }/*初状态*/
+        to{
+            width: 400px;
+            height: 400px;
+        }/*末状态*/
+    }
+
+    @keyframes irregular_expanding{
+        0%{
+            width: 200px;
+            height: 200px;
+        }
+        30%{
+            width: 300px;
+            height: 300px;
+        }/*可以指定的中间状态（帧）*/
+        100%{
+            width: 400px;
+            height:400px;
+        }
+    }
+
+
+    
+</style>
+<body>
+    <div class="flex">
+        <div id="box1"></div>
+        <div id="box2"></div>
+    </div>
+</body>
+</html>
