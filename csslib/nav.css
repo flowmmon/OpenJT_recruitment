@@ -1,3 +1,8 @@
+header {
+    width: 100%;
+    height: 65px;
+}
+
 .nav_class {  
     width: 100%;  
     height: 65px;  
@@ -5,7 +10,7 @@
     background-color: rgba(255, 255, 255, 1);  
     display: flex;  
     position: fixed; 
-    transform: translate(-0.5%, 0);   
+    transform: translate(-0.5%, -10%);   
 }  
 
 .nav_class .nav {   
@@ -14,7 +19,7 @@
     background-color: rgba(255, 255, 255, 1);   
     display: flex;  
     position: relative;  
-    transform: translate(-0.5%, 0); 
+    transform: translate(0, -10%); 
 }  
 
 .nav_class .nav .nav_logo {  
@@ -44,7 +49,7 @@
     display: flex;
     align-items: center;
     position: relative;
-    margin: 0 5%;
+    margin: 0 7.5% 0 5%;
 }
 
 .nav_class .nav .nav_searchbar img {
