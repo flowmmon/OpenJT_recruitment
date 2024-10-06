@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/csslib/body.css">
     <link rel="stylesheet" href="/csslib/nav.css">
     <link rel="stylesheet" href="/csslib/slider.css">
+    <link rel="stylesheet" href="/csslib/vision.css">
 </head>
 <body>
     <header class="nav_class">
@@ -50,18 +51,32 @@
                     <li class="slider_item"><img></li>
                     <li class="slider_item"><img></li>
                 </ul>
-                <ul class="slider_dotswrapper">
-                    <li class="slider_dots"><img alt="slider_dot1"></li>
-                    <li class="slider_dots"><img alt="slider_dot2"></li>
-                    <li class="slider_dots"><img alt="slider_dot3"></li>
-                    <li class="slider_dots"><img alt="slider_dot4"></li>
-                </ul>
+                <div class="slider_indicators_wrapper">
+                    <button type="button" aria-label="slider-indicator" class="indicator" data-index="0" onclick="goToSlide(0)"></button>
+                    <button type="button" aria-label="slider-indicator" class="indicator" data-index="1" onclick="goToSlide(1)"></button>
+                    <button type="button" aria-label="slider-indicator" class="indicator" data-index="2" onclick="goToSlide(2)"></button>
+                    <button type="button" aria-label="slider-indicator" class="indicator" data-index="3" onclick="goToSlide(3)"></button>
+                </div>
             </div>
             <aside class="slider_rightsider">
                 <div class="rightslider_imgwrapper">
                     <img class="slider_rightsiderimg" alt="slider_next_pic" src="/srclib/stable-diffusion-slidebackground-ai (1).png">
                 </div>
             </aside>
+        </div>
+        <div class="content_vision_wrapper">
+            <div class="vision_headerwrapper">
+                <div class="vision_header"></div>
+            </div>
+            <div class="vision_main">
+                <div class="vision_selector">
+                    <div class="vision_section"></div>
+                    <div class="vision_section"></div>
+                    <div class="vision_section"></div>
+                </div>
+                <div class="vision_imgwrapper">
+                </div>
+            </div>
         </div>
     </main>
     <footer></footer>

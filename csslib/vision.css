@@ -1,0 +1,53 @@
+.content_vision_wrapper {
+    background-color: antiquewhite;
+    width: 100%;
+    height: 800px;
+    margin-top: 130px;
+    display: block;
+}
+
+.vision_headerwrapper {
+    background-color: aqua;
+    width: 100%;
+    height: 20%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.vision_header {
+    background-color: aquamarine;
+    width: 100%;
+    height: 80%;
+    justify-content: center;
+    align-items: center;
+}
+
+.vision_main {
+    background-color: azure;
+    width: 100%;
+    height: 80%;
+    display: flex;
+}
+
+.vision_selector {
+    background-color: blue;
+    width: 40%;
+    height: 100%;
+    padding: 0.5% 0;
+    justify-content: center;
+    align-items: center;
+    display: block;
+}
+
+.vision_section {
+    background-color: blueviolet;
+    border-style: solid;
+    width: 100%;
+    height: 33%;
+}
+
+.vision_imgwrapper {
+    width: 60%;
+    height: 100%;
+}
