@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/csslib/nav.css">
     <link rel="stylesheet" href="/csslib/slider.css">
     <link rel="stylesheet" href="/csslib/vision.css">
+    
 </head>
 <body>
     <header class="nav_class">
@@ -66,19 +67,28 @@
         </div>
         <div class="content_vision_wrapper">
             <div class="vision_headerwrapper">
-                <div class="vision_header"></div>
+                <div class="vision_header">
+                    <h1 class="vHeader">选择我们，大有可为</h1>
+                </div>
             </div>
             <div class="vision_main">
                 <div class="vision_selector">
-                    <div class="vision_section"></div>
-                    <div class="vision_section"></div>
-                    <div class="vision_section"></div>
+                    <div class="vision_section" data-index="0">栏目1</div>
+                    <div class="vision_content active">内容1</div>
+
+                    <div class="vision_section" data-index="1">栏目2</div>
+                    <div class="vision_content">内容2</div>
+
+                    <div class="vision_section" data-index="2">栏目3</div>
+                    <div class="vision_content">内容3</div>
                 </div>
                 <div class="vision_imgwrapper">
+                    <img alt="栏目图片">
                 </div>
             </div>
         </div>
     </main>
     <footer></footer>
 </body>
+<script src="/scriptlib/vision_selector.js"></script>
 </html>

@@ -1,13 +1,15 @@
 .content_vision_wrapper {
-    background-color: antiquewhite;
-    width: 100%;
+    width: 80%;
     height: 800px;
     margin-top: 130px;
-    display: block;
+    padding: 0 10%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
 }
 
 .vision_headerwrapper {
-    background-color: aqua;
     width: 100%;
     height: 20%;
     justify-content: center;
@@ -16,11 +18,15 @@
 }
 
 .vision_header {
-    background-color: aquamarine;
     width: 100%;
     height: 80%;
+    color:  rgba(40, 40, 40, 0.8);
+    font-family:"Microsoft YaHei";
+    font-size: larger;
+    text-align: center;
     justify-content: center;
     align-items: center;
+    
 }
 
 .vision_main {
@@ -31,21 +37,34 @@
 }
 
 .vision_selector {
-    background-color: blue;
+    background-color: grey;
     width: 40%;
     height: 100%;
-    padding: 0.5% 0;
     justify-content: center;
     align-items: center;
     display: block;
 }
 
 .vision_section {
-    background-color: blueviolet;
-    border-style: solid;
     width: 100%;
-    height: 33%;
+    height: 25%;
+    overflow: hidden;
 }
+
+.vision_content {
+    max-height: 0; /* 初始高度为0 */   
+    border-bottom: 1px solid #ccc;   
+    overflow: hidden; /* 防止溢出 */  
+    transition: max-height 0.0000001ms ease, padding 1s ease; /* 添加过渡效果 */
+}
+
+.active {  
+    height: 25%;
+    max-height: 300px; /* 展开的最大高度 */  
+    background:gray; /* 背景颜色 */  
+    transition: max-height 1s ease, padding 1s ease; 
+    border-bottom: 1px solid #ccc;   /* 添加过渡效果 */  
+} 
 
 .vision_imgwrapper {
     width: 60%;

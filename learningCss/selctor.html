@@ -1,0 +1,62 @@
+<!DOCTYPE html>  
+<html lang="zh">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>选项卡示例</title>  
+    <style>  
+        .tabs {  
+            width: 300px;   
+            border: 1px solid #ccc;   
+            border-radius: 5px;  
+            overflow: hidden;   
+        }  
+        .tab {  
+            background: #f0f0f0;  
+            cursor: pointer;  
+            padding: 10px;  
+            border-bottom: 1px solid #ccc;   
+        }  
+        .content {  
+            max-height: 0; /* 初始高度为0 */  
+            padding: 0 10px; /* 左右留白 */  
+            overflow: hidden; /* 防止溢出 */  
+            transition: max-height 0.5s ease, padding 0.5s ease; /* 添加过渡效果 */  
+        }  
+        .active {  
+            max-height: 100px; /* 展开的最大高度 */  
+            padding: 10px; /* 展开时的内边距 */  
+            background: #fff; /* 背景颜色 */  
+            transition: max-height 0.5s ease, padding 0.5s ease; /* 添加过渡效果 */  
+        }  
+    </style>  
+</head>  
+<body>  
+
+<div class="tabs">  
+    <div class="tab" data-index="0">标题 1</div>  
+    <div class="content active">这里是选项 1 的内容。</div> <!-- 添加了 active 类 -->  
+    
+    <div class="tab" data-index="1">标题 2</div>  
+    <div class="content">这里是选项 2 的内容。</div>  
+    
+    <div class="tab" data-index="2">标题 3</div>  
+    <div class="content">这里是选项 3 的内容。</div>  
+</div>  
+
+<script>  
+    document.querySelectorAll('.tab').forEach(tab => {  
+        tab.addEventListener('click', function() {  
+            // 收起所有内容  
+            document.querySelectorAll('.content').forEach(content => {  
+                content.classList.remove('active');  
+            });  
+            // 展开被点击的内容  
+            const index = this.getAttribute('data-index');  
+            document.querySelectorAll('.content')[index].classList.toggle('active');  
+        });  
+    });  
+</script>  
+
+</body>  
+</html>
