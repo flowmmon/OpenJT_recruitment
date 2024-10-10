@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .login {
+            width: auto;
+            height: auto;
+        }
+
+        .username input {
+            width: 400px;
+            height: 40px;
+            border: none;
+            border-bottom: 1px gray solid;
+        }
+
+        .password {
+            width: 400px;
+            height: 42px;
+            display: flex;
+            border-bottom: 1px gray solid;
+        }
+
+        .password input {
+            width: 250px;
+            height: 40px;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-bottom: 0;
+        }
+
+        .forget_password {
+            display: flex;
+            margin: auto;
+            padding: auto 2px;
+            border-left: 1px gray solid;
+        }
+    </style>
+</head>
+<body>
+    <div class="login">
+        <div class="username">
+            <input type="text" name="username" placeholder="用户名/邮箱/已验证手机">             
+        </div>
+        <div class="password">
+            <input type="password" name="password">
+            <img alt="showPassword" src="/srclib/icons8-eye-48.png">
+            <div class="forget_password">忘记密码?</div>
+        </div>
+    </div>
+
+    <script>
+    const passwordEye = document.querySelector('.password img');  
+    const passwordInput = document.querySelector(".password input[name='password']");  
+
+    passwordEye.addEventListener("click", function () {  
+    if (passwordInput.getAttribute('type') === 'password') {  
+        passwordInput.setAttribute('type', 'text');  
+    } else {  
+        passwordInput.setAttribute('type', 'password');  
+    }  
+});
+    </script>
+</body>
+</html>
