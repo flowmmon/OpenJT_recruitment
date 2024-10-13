@@ -58,7 +58,7 @@
     transition: max-height 0.0000001ms ease, padding 1s ease; /* 添加过渡效果 */
 }
 
-.active {  
+.vision_content.active {  
     height: 25%;
     max-height: 300px; /* 展开的最大高度 */  
     background:gray; /* 背景颜色 */  

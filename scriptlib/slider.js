@@ -42,7 +42,7 @@ function startAutoSlide() {
     setInterval(() => {  
         currentIndex = (currentIndex + 1) % totalImages; // 计算下一个索引  
         updateImages();  
-    }, 10000); // 每3秒切换一次  
+    }, 15000); // 每15秒切换一次  
 }  
 
 // 初始化图片显示  

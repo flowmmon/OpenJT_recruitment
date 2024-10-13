@@ -1,0 +1,52 @@
+<!DOCTYPE html>  
+<html lang="zh-CN">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>OpenJT GPT smartChat A1 Preview</title>  
+    <link rel="stylesheet" href="/csslib/chatbot.css"> <!-- 引入样式 -->  
+    <script src="script.js" defer></script> <!-- 引入脚本 -->  
+</head>  
+<body>  
+    <header>  
+        <div class="navbar">  
+            <div class="logo">OpenJT</div>  
+            <div class="nav-links">  
+                <a href="#about">关于我们</a>  
+                <a href="#help">帮助中心</a>  
+                <button class="settings-btn">设置</button>  
+            </div>  
+        </div>  
+    </header>  
+    
+    <main>  
+        <aside class="sidebar">  
+            <h3>会话列表</h3>  
+            <ul class="conversation-list">  
+                <!-- 动态加载会话项 -->  
+                <li class="conversation-item">会话 1</li>  
+                <li class="conversation-item">会话 2</li>  
+                <li class="conversation-item">会话 3</li>  
+                <!-- 继续添加更多会话 -->  
+            </ul>  
+        </aside>  
+
+        <div class="chat-window">  
+            <div class="chat-messages">  
+                <!-- 动态加载消息 -->  
+                <div class="message user-message">你好！</div>  
+                <div class="message ai-message">你好！请问有什么我可以帮助你的吗？</div>  
+                <!-- 继续添加更多消息 -->  
+            </div>  
+            <div class="input-area">  
+                <textarea id="user-input" placeholder="输入您的问题..."></textarea>  
+                <button id="send-btn">发送</button>  
+            </div>  
+        </div>  
+    </main>  
+
+    <footer>  
+        <p>&copy; 2024 OpenJT. 保留所有权利。</p>  
+    </footer>  
+</body>  
+</html>

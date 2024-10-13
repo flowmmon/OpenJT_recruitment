@@ -1,0 +1,141 @@
+/* 基本重置 */  
+* {  
+    margin: 0;  
+    padding: 0;  
+    box-sizing: border-box;  
+}  
+
+body {  
+    font-family: Arial, sans-serif;  
+    background-color: #f4f4f4;  
+    color: #333;  
+}  
+
+/* 顶部导航栏 */  
+.header {  
+    background-color: #007bff;  
+    color: white;  
+    padding: 10px 20px;  
+}  
+
+.navbar {  
+    display: flex;  
+    justify-content: space-between;  
+    align-items: center;  
+}  
+
+.nav-links {  
+    display: flex;  
+    gap: 15px;  
+}  
+
+.nav-links a {  
+    color: white;  
+    text-decoration: none;  
+}  
+
+/* 主体部分 */  
+main {  
+    display: flex;  
+    height: 80vh; /* 设定主内容区高度 */  
+}  
+
+/* 侧边栏 */  
+.sidebar {  
+    background-color: #eaeaea;  
+    width: 250px;  
+    padding: 20px;  
+    border-right: 1px solid #ccc;  
+}  
+
+.conversation-list {  
+    list-style: none;  
+}  
+
+.conversation-item {  
+    padding: 10px;  
+    margin-bottom: 10px;  
+    background-color: #ffffff;  
+    cursor: pointer;  
+    transition: background-color 0.3s;  
+}  
+
+.conversation-item:hover {  
+    background-color: #cfe3ff; /* 悬停效果 */  
+}  
+
+/* 聊天窗口 */  
+.chat-window {  
+    flex: 1;  
+    padding: 20px;  
+    display: flex;  
+    flex-direction: column;  
+}  
+
+.chat-messages {  
+    flex: 1;  
+    overflow-y: auto; /* 可滚动 */  
+    padding: 10px;  
+    background-color: #ffffff;  
+    border: 1px solid #ccc;  
+    border-radius: 5px;  
+}  
+
+.message {  
+    margin: 10px 0;  
+    padding: 10px;  
+    border-radius: 5px;  
+}  
+
+/* 用户消息 */  
+.user-message {  
+    background-color: #007bff;  
+    color: white;  
+    align-self: flex-end; /* 右对齐 */  
+}  
+
+/* AI 消息 */  
+.ai-message {  
+    background-color: #e1e1e1;  
+    align-self: flex-start; /* 左对齐 */  
+}  
+
+/* 输入区域 */  
+.input-area {  
+    display: flex;  
+    margin-top: 10px;  
+}  
+
+textarea {  
+    flex: 1;  
+    padding: 10px;  
+    border: 1px solid #ccc;  
+    border-radius: 5px;  
+    resize: none; /* 禁止拉伸 */  
+}  
+
+#send-btn {  
+    padding: 10px 15px;  
+    background-color: #007bff;  
+    color: white;  
+    border: none;  
+    border-radius: 5px;  
+    margin-left: 10px;  
+    cursor: pointer;  
+    transition: background-color 0.3s;  
+}  
+
+#send-btn:hover {  
+    background-color: #0056b3; /* 悬停效果 */  
+}  
+
+/* 底部 */  
+footer {  
+    text-align: center;  
+    padding: 10px;  
+    background-color: #007bff;  
+    color: white;  
+    position: relative;  
+    bottom: 0;  
+    width: 100%;  
+}
