@@ -22,82 +22,84 @@ body {
     display: flex;  
     justify-content: space-between;  
     align-items: center;  
+}
+
+.nav_button {
+    display: flex;
+}
+
+.nav_button button {
+    background-color: white;
+    width: 50px;
+    height: 30px;
+    margin: 0 1em;
+    border-radius: 10px;
+    border: none;
+}
+
+/* 侧边栏 */  
+.sidebar {  
+    position: fixed; /* 使用fixed让侧边栏在内容上层 */  
+    top: 0;  
+    left: -250px; /* 初始状态在视口之外 */  
+    width: 250px;  
+    height: 100%;  
+    background-color: #eaeaea;  
+    padding: 20px;  
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);  
+    transition: transform 0.3s ease;  
+    z-index: 100; /* 确保侧边栏在 footer 上方 */  
 }  
 
-.nav-links {  
-    display: flex;  
-    gap: 15px;  
-}  
-
-.nav-links a {  
-    color: white;  
-    text-decoration: none;  
+.sidebar.active {  
+    transform: translateX(250px); /* 展开效果 */  
 }  
 
 /* 主体部分 */  
 main {  
     display: flex;  
-    height: 80vh; /* 设定主内容区高度 */  
+    height: 80vh; /* 主内容区高度 */  
 }  
 
-/* 侧边栏 */  
-.sidebar {  
-    background-color: #eaeaea;  
-    width: 250px;  
+/* 主内容区，不再压缩 */  
+.main-content {  
+    flex: 1;  
     padding: 20px;  
-    border-right: 1px solid #ccc;  
-}  
-
-.conversation-list {  
-    list-style: none;  
-}  
-
-.conversation-item {  
-    padding: 10px;  
-    margin-bottom: 10px;  
-    background-color: #ffffff;  
-    cursor: pointer;  
-    transition: background-color 0.3s;  
-}  
-
-.conversation-item:hover {  
-    background-color: #cfe3ff; /* 悬停效果 */  
 }  
 
 /* 聊天窗口 */  
 .chat-window {  
-    flex: 1;  
+    flex: 1; 
+    height: 100%; 
     padding: 20px;  
     display: flex;  
     flex-direction: column;  
 }  
 
 .chat-messages {  
-    flex: 1;  
-    overflow-y: auto; /* 可滚动 */  
+    height: 90%; /* 设置最大高度 */  
+    overflow-y: auto;  /* 允许垂直滚动 */  
+    padding: 10px;     /* 添加内边距以提高可读性 */  
+    border: 1px solid #ccc; /* 可选：边框 */  
+    background-color: #f9f9f9; /* 可选：背景色 */  
+
+}  
+.message { 
+    width: max-content; 
+    margin: 20px 0;  
     padding: 10px;  
-    background-color: #ffffff;  
-    border: 1px solid #ccc;  
-    border-radius: 5px;  
+    border-radius: 10px;  
 }  
 
-.message {  
-    margin: 10px 0;  
-    padding: 10px;  
-    border-radius: 5px;  
-}  
-
-/* 用户消息 */  
 .user-message {  
     background-color: #007bff;  
     color: white;  
-    align-self: flex-end; /* 右对齐 */  
+    align-self: flex-end;  
 }  
 
-/* AI 消息 */  
 .ai-message {  
     background-color: #e1e1e1;  
-    align-self: flex-start; /* 左对齐 */  
+    align-self: flex-start;  
 }  
 
 /* 输入区域 */  
@@ -111,7 +113,7 @@ textarea {
     padding: 10px;  
     border: 1px solid #ccc;  
     border-radius: 5px;  
-    resize: none; /* 禁止拉伸 */  
+    resize: none;  
 }  
 
 #send-btn {  
@@ -126,16 +128,83 @@ textarea {
 }  
 
 #send-btn:hover {  
-    background-color: #0056b3; /* 悬停效果 */  
+    background-color: #0056b3;  
+}  
+
+/* 设置区域 */  
+.settings {  
+    margin-top: 20px;  
+}  
+
+/* 设置项样式 */  
+.settings-item {  
+    margin-bottom: 15px;  
 }  
 
 /* 底部 */  
 footer {  
-    text-align: center;  
+    text-align: center;
+    margin-top: 50px;  
     padding: 10px;  
     background-color: #007bff;  
     color: white;  
     position: relative;  
     bottom: 0;  
-    width: 100%;  
-}
+    width: 100%;
+    height: 50px;  
+}  
+
+/* 滚动列表样式 */  
+.scrollable-list {  
+    max-height: 200px; /* 限制最大高度 */  
+    overflow-y: auto; /* 允许滚动 */  
+    border: 1px solid #ccc;  
+    border-radius: 5px;  
+    padding: 10px;  
+}  
+
+/* 开关样式 */  
+.switch {  
+    position: relative;  
+    display: inline-block;  
+    width: 34px;  
+    height: 20px;  
+}  
+
+.switch input {  
+    opacity: 0;  
+    width: 0;  
+    height: 0;  
+}  
+
+.slider {  
+    position: absolute;  
+    cursor: pointer;  
+    top: 0;  
+    left: 0;  
+    right: 0;  
+    bottom: 0;  
+    background-color: #ccc;  
+    transition: .4s;  
+    border-radius: 20px;  
+}  
+
+.slider:before {  
+    position: absolute;  
+    content: "";  
+    height: 16px;  
+    width: 16px;  
+    left: 2px;  
+    bottom: 2px;  
+    background-color: white;  
+    transition: .4s;  
+    border-radius: 50%;  
+}  
+
+input:checked + .slider {  
+    background-color: #007bff;  
+}  
+
+input:checked + .slider:before {  
+    transform: translateX(14px);  
+}  

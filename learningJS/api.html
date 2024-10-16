@@ -1,0 +1,28 @@
+<!DOCTYPE html>  
+<html lang="zh">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>通义千问接入示例</title>  
+    <script>  
+        async function askQuestion() {  
+            const question = document.getElementById('question').value;  
+            const response = await fetch('YOUR_API_URL', {  
+                method: 'POST',  
+                headers: {  
+                    'Content-Type': 'application/json',  
+                    'Authorization': 'Bearer YOUR_ACCESS_TOKEN'  
+                },  
+                body: JSON.stringify({ question })  
+            });  
+            const data = await response.json();  
+            document.getElementById('answer').innerText = data.answer; // 假设返回数据结构中有 answer 字段  
+        }  
+    </script>  
+</head>  
+<body>  
+    <h1>通义千问查询</h1>  
+    <input type="text" id="question" placeholder="请输入你的问题">  
+    <button onclick="askQuestion()">查询</button>  
+    <p>答案: <span id="answer"></span></p>  
+</body>  
+</html>

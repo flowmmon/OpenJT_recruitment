@@ -33,13 +33,15 @@
     background-color: azure;
     width: 100%;
     height: 80%;
+    border-radius: 20px;
     display: flex;
 }
 
 .vision_selector {
-    background-color: grey;
+    background-color: rgb(240,240,240);
     width: 40%;
     height: 100%;
+    border-radius: 20px 0 0 20px;
     justify-content: center;
     align-items: center;
     display: block;
@@ -61,7 +63,7 @@
 .vision_content.active {  
     height: 25%;
     max-height: 300px; /* 展开的最大高度 */  
-    background:gray; /* 背景颜色 */  
+    background:linear-gradient(to bottom,rgb(240,240,240),rgb(200,200,200)); /* 背景颜色 */  
     transition: max-height 1s ease, padding 1s ease; 
     border-bottom: 1px solid #ccc;   /* 添加过渡效果 */  
 } 
