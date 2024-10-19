@@ -44,7 +44,7 @@
                         </div>  
                     </div>  
                     <div class="input-area">  
-                        <textarea v-model="currentMessage" placeholder="输入消息..."></textarea>  
+                        <textarea v-model="newMessage" placeholder="输入消息..."></textarea>  
                         <button @click="sendMessage">发送</button>  
                     </div>  
                 </div>  
@@ -66,7 +66,7 @@ export default {
             backgroundColor: "#ffffff",  
             shortAnswer: false,  
             messages: [],  
-            currentMessage: ''  
+            newMessage: '',
         };  
     },  
     mounted() {  
@@ -83,26 +83,46 @@ export default {
         changeBackgroundColor() {  
             document.body.style.backgroundColor = this.backgroundColor; // 根据选中的颜色改变背景色  
         },  
-        sendMessage() {  
-            const userMessage = this.currentMessage.trim();  
+        async sendMessage() {  
+            const userMessage = this.newMessage.trim();  
+
             if (userMessage) {  
-                // 将用户消息添加到消息列表  
-                this.messages.push({ user: userMessage, ai: `AI 消息（模拟）: ${userMessage}` });  
-                
-                // 清空输入框  
-                this.currentMessage = '';  
+                this.messages.push({ user: userMessage, ai: '发送中...' }); // 将用户消息添加到消息列表中  
+                this.newMessage = ''; // 清空输入框  
 
                 // 滚动到最新消息  
                 this.$nextTick(() => {  
                     const chatMessages = this.$refs.chatMessages;  
                     chatMessages.scrollTop = chatMessages.scrollHeight;  
                 });  
+
+                // 发送请求到 Flask 后端  
+                try {  
+                    const response = await fetch('http://127.0.0.1:5000/call_agent', {  
+                        method: 'POST',  
+                        headers: {  
+                            'Content-Type': 'application/json'  
+                        },  
+                        body: JSON.stringify({ prompt: userMessage })  
+                    });  
+
+                if (!response.ok) {  
+                    throw new Error('网络响应不合法');  
+                 }  
+
+                    const data = await response.json();  
+                    this.messages[this.messages.length - 1].ai = data.output.text; 
+                } catch (error) {  
+                    console.error('请求失败:', error);  
+                 // 显示请求失败信息  
+                    this.messages[this.messages.length - 1].ai = '请求失败: ' + error.message; // 直接赋值  
+                }  
             }  
-        }  
+        }
     }  
 };  
 </script>  
 
 <style scoped>  
-@import'../assets/chatbot.css';
+@import '../assets/chatbot.css';  
 </style>

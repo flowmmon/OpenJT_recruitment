@@ -86,7 +86,8 @@ main {
 }  
 
 .user-message {  
-    width: max-content; 
+    width: max-content;
+    max-width: 100%; 
     margin: 20px 0;  
     padding: 10px;  
     border-radius: 10px;
@@ -97,6 +98,7 @@ main {
 
 .ai-message {  
     width: max-content; 
+    max-width: 100%; 
     margin: 20px 0;  
     padding: 10px;  
     border-radius: 10px;
