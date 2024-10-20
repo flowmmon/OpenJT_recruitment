@@ -98,7 +98,7 @@ export default {
 
                 // 发送请求到 Flask 后端  
                 try {  
-                    const response = await fetch('http://127.0.0.1:5000/call_agent', {  
+                    const response = await fetch('http://47.109.131.189:5000/call_agent', {  
                         method: 'POST',  
                         headers: {  
                             'Content-Type': 'application/json'  
