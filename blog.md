@@ -253,3 +253,50 @@ AI消息为左侧对齐，气泡背景与主题色一致。
 今天成功在本地测试端把阿里云通义千问接入了网页，但是又导致了网页样式问题......
 
 为了引入通义千问，我使用 flask 构建了一个连接网页与通义千问回答的 python 程序。在本地测试环境是成功的，现在下一步就是把这个后端程序导入我的阿里云服务器了，这样可以方便地调用 api。
+
+
+
+### Day 13    2024.10.21
+
+---
+
+#### 今日进度
+
+这几天我被部署后端程序搞火了，尝试了一个又一个解决办法，只为了把 Qwen 的自定义应用调用的 python 中转程序上线（还不是自定义应用只支持 python java curl 方式的调用）。我来总结一下过程：
+
+1、我把程序部署到我的阿里云服务器，启动程序，结果请求返回 502 ，我查看了控制台，发现是我的 flask 应用只支持 http 请求，但 vercel 部署的网页服务器出于安全考虑，只允许发送 https 请求。
+
+2、于是我尝试把这个程序指定的 websocket 地址在证书注册的平台 Let`s Encrypt 注册一个证书以使用 SSL 方法，但是它们不支持 ip 域名认证。
+
+3、根据 gpt 的推荐，我使用 ngrok ，进行内网穿透，开放了 https 的 5000 端口，这样就可以成功发送请求了。
+
+4、但是如果断开 SSH 连接，程序就会关闭，无法持续运行。解决这个问题的方法我在我们张翔老师那里学过：制作 docker 镜像并在服务器上运行容器。我的 Dockerfile 长这样：
+
+```dockerfile
+FROM python:3.9-slim  
+
+WORKDIR /app  
+
+COPY . /app  
+
+RUN apt-get update && \
+    apt-get install -y wget unzip && \
+    rm -rf /var/lib/apt/lists/*  
+
+RUN wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz && \
+    tar -xvzf ngrok-v3-stable-linux-amd64.tgz && \
+    mv ngrok /usr/local/bin && \
+    rm ngrok-v3-stable-linux-amd64.tgz  
+
+RUN ngrok config add-authtoken 2ni9cdJ7kRIHFqucjTxTuNpCMuI_7MRBgWrszfuH1jMdcxUKV  
+
+RUN pip install --no-cache-dir -r requirements.txt  
+
+CMD ["sh", "-c", "ngrok http 5000 & python app.py"]
+```
+
+ 
+
+关于后端部分的小程序，此事在[后端仓库]([flowmmon/OpenJT_backend](https://github.com/flowmmon/OpenJT_backend))中亦有记载。
+
+接下来一个大任务就是搞定多轮对话和 localstorage 。
