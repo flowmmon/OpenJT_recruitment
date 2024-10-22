@@ -74,9 +74,34 @@ export default {
         };  
     },  
     mounted() {  
+        // 在组件加载时从 localStorage 恢复数据  
+        const storedDialogs = localStorage.getItem('dialogs');  
+        const storedMessages = localStorage.getItem('messages');  
+        const storedCurrDialogIndex = localStorage.getItem('currDialogIndex');  
+
+        if (storedDialogs) {  
+            this.dialogs = JSON.parse(storedDialogs); // 恢复对话列表  
+        }  
+
+        if (storedMessages) {  
+            this.messages = JSON.parse(storedMessages); // 恢复当前对话的消息  
+        }  
+
+        if (storedCurrDialogIndex !== null) {  
+            this.currDialogIndex = parseInt(storedCurrDialogIndex, 10); // 恢复当前对话索引  
+        }  
+
         // 设置初始背景色  
         document.body.style.backgroundColor = this.backgroundColor;  
+
+        this.selectDialog(this.dialogs[this.currDialogIndex]);
     },  
+    beforeUnmount() {  
+        // 当组件卸载时保存数据到 localStorage  
+        localStorage.setItem('dialogs', JSON.stringify(this.dialogs));  
+        localStorage.setItem('messages', JSON.stringify(this.messages)); 
+        localStorage.setItem('currDialogIndex', this.currDialogIndex);  
+    },
     methods: {
         convertMarkdownToHtml(markdown) {  
             return marked(markdown);
