@@ -82,29 +82,32 @@ main {
     padding: 10px;     /* 添加内边距以提高可读性 */  
     border: 1px solid #ccc; /* 可选：边框 */  
     background-color: #f9f9f9; /* 可选：背景色 */  
-
 }  
 
 .user-message {  
-    width: max-content;
-    max-width: 100%; 
+    max-width: 100%; /* 最大宽度为100% */   
     margin: 20px 0;  
     padding: 10px;  
-    border-radius: 10px;
+    border-radius: 10px;  
     background-color: #007bff;  
     color: white;  
     align-self: flex-end;  
+    word-wrap: break-word; /* 在需要时换行 */  
+    overflow-wrap: break-word; /* 兼容性较好的文本换行 */  
+    white-space: normal; /* 允许文本换行 */   
 }  
 
 .ai-message {  
-    width: max-content; 
-    max-width: 100%; 
+    max-width: 100%; /* 最大宽度为100% */   
     margin: 20px 0;  
     padding: 10px;  
-    border-radius: 10px;
+    border-radius: 10px;  
     background-color: #e1e1e1;  
     align-self: flex-start;  
-}  
+    word-wrap: break-word; /* 在需要时换行 */  
+    overflow-wrap: break-word; /* 兼容性较好的文本换行 */  
+    white-space: normal; /* 允许文本换行 */   
+}
 
 /* 输入区域 */  
 .input-area {  
