@@ -81,7 +81,9 @@ export default {
 
         if (storedDialogs) {  
             this.dialogs = JSON.parse(storedDialogs); // 恢复对话列表  
-        }  
+        } else{
+            localStorage.setItem(this.dialogs[this.currDialogIndex], JSON.stringify(this.messages));  
+        } 
 
         if (storedMessages) {  
             this.messages = JSON.parse(storedMessages); // 恢复当前对话的消息  
@@ -92,7 +94,7 @@ export default {
         }  
 
         // 设置初始背景色  
-        document.body.style.backgroundColor = this.backgroundColor;  
+        document.body.style.backgroundColor = this.backgroundColor; 
 
         this.selectDialog(this.dialogs[this.currDialogIndex]);
     },  
