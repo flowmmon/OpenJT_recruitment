@@ -300,3 +300,219 @@ CMD ["sh", "-c", "ngrok http 5000 & python app.py"]
 关于后端部分的小程序，此事在[后端仓库]([flowmmon/OpenJT_backend](https://github.com/flowmmon/OpenJT_backend))中亦有记载。
 
 接下来一个大任务就是搞定多轮对话和 localstorage 。
+
+
+
+### Day 14    2024.10.22
+
+---
+
+#### 今日进度
+
+完成了localstorage存储多轮对话。情况是这样的：
+
+localstorage以键值对管理数据。一个很自然的想法是，对于以下的 vue 结构 --
+
+```vue
+<div class="chat-messages" ref="chatMessages">  
+                        <div v-for="(message, index) in messages" :key="index" class="message-container">  
+                            <p class="user-message">{{ message.user }}</p>  
+                            <p class="ai-message" v-html="convertMarkdownToHtml(message.ai)"></p>   
+                        </div>  
+                    </div> 
+```
+
+我们想加入对话，就可以通过一个 message 对象数组储存对话信息， v-for 会解析出对应的内容，然后呈现对话框。同理，对增加和删除按钮也是一样的。
+
+```vue
+<div class="scrollable-list">  
+                            <div v-for="(dialog, index) in dialogs" :key="index" class="dialog-item">  
+                                <input type="button" :value="dialog" @click="selectDialog(index)" />  
+                                <button @click="removeDialog(index)">删除</button>  
+                            </div>  
+                            <button @click="addDialog" :disabled="dialogs.length >= 10">添加对话</button>  
+                        </div>  
+```
+
+然后，在创建多个对话的情况下，我逐一删除了除第一个与最后一个的其他对话，删除最后一个对话后发现 localstorage 里无法正常删除。尝试后发现，按逆序从最后一个对话往前删除不会出现问题，但只要不按顺序删除，就一定出现问题。于是我发现了漏洞：我的 localstorage 的 key 按照创建的顺序从 1 到 10 排列 （限制最大对话数 10 个），删除了后剩下的 index 还是从 0 开始到 (9 - 删除个数)
+
+连续排列，可是对应的 localstorage 的 key 不会自动调整，导致无法正确删除指定的 localstorage。
+
+我的解决方法是，把原来的（dialog <->  index <-> localstorage）结构改为 （dialog <->  dialogName <-> index <-> dialogName<->localstorage）。对话名才是与对话具有强对应关系的属性，而对于不同自然语言，可以采用 id 字段（贪省事我没搞）查找。
+
+
+
+这个方案也带来了不少 bug .比如刷新或重进页面时无法自动加载对话，本地存储的不同对话在设置的对话控制面板中不显示。为了应对这种情况，我加入了储存当前对话 index 的 localstorage ---  currDialogIndex ， 储存当前消息的 localstorage --- message ，储存当前对话列表的 localstorage --- dialogs ，方便及时记录，支持随时刷新。
+
+```vue
+export default {  
+    data() {  
+        return {  
+            sidebarActive: false,  
+            dialogs: ["对话 1"],  
+            backgroundColor: "#ffffff",  
+            shortAnswer: false,  
+            messages: [],  
+            newMessage: '',  
+            currDialogIndex: 0,  
+        };  
+    },  
+    mounted() {  
+        // 从 localStorage 中恢复数据  
+        this.loadFromLocalStorage();  
+
+        // 设置初始背景色  
+        document.body.style.backgroundColor = this.backgroundColor;  
+
+        // 选择当前对话  
+        this.selectDialog(this.currDialogIndex);  
+    },  
+    methods: {  
+        loadFromLocalStorage() {  
+            const storedDialogs = localStorage.getItem('dialogs');  
+            const storedMessages = localStorage.getItem(this.dialogs[this.currDialogIndex]); // 根据当前对话索引加载消息  
+            const storedCurrDialogIndex = localStorage.getItem('currDialogIndex');  
+
+            // 恢复对话列表  
+            if (storedDialogs) {  
+                this.dialogs = JSON.parse(storedDialogs);  
+            } else {  
+                // 如果没有存储的对话，则初始化一个对话  
+                this.dialogs = ["对话 1"];  
+                localStorage.setItem('dialogs', JSON.stringify(this.dialogs));  
+            }  
+
+            // 恢复当前对话索引  
+            if (storedCurrDialogIndex !== null) {  
+                this.currDialogIndex = parseInt(storedCurrDialogIndex, 10);  
+            } else {  
+                this.currDialogIndex = 0;  
+                localStorage.setItem('currDialogIndex', this.currDialogIndex);  
+            }  
+
+            // 恢复当前对话的消息  
+            if (storedMessages) {  
+                this.messages = JSON.parse(storedMessages);  
+            } else {  
+                this.messages = []; // 如果没有消息，则初始化为空  
+            }  
+        },  
+
+        convertMarkdownToHtml(markdown) {  
+            return marked(markdown);  
+        },  
+        goBack() {  
+            window.history.back();  
+        },  
+        toggleSidebar() {  
+            this.sidebarActive = !this.sidebarActive;  
+        },  
+        changeBackgroundColor() {  
+            document.body.style.backgroundColor = this.backgroundColor;  
+        },  
+        addDialog() {  
+            if (this.dialogs.length < 10) {  
+                const newDialogName = `对话 ${this.dialogs.length + 1}`;  
+                this.dialogs.push(newDialogName);  
+                this.selectDialog(this.dialogs.length - 1);  
+                localStorage.setItem('dialogs', JSON.stringify(this.dialogs));  
+            }  
+        },  
+
+        removeDialog(index) {  
+            if (this.dialogs.length > 0) {  
+                if (index < 0 || index >= this.dialogs.length) {  
+                    console.error("Index out of bounds");  
+                    return;  
+                }  
+
+                const dialogName = this.dialogs[index];  
+                this.dialogs.splice(index, 1);  
+                if (index === this.currDialogIndex) {  
+                    this.messages = [];  
+                    // 如果对话被删除，选择下一个对话  
+                    if (this.dialogs.length > 0) {  
+                        this.selectDialog(index < this.dialogs.length ? index : this.dialogs.length - 1);  
+                    } else {  
+                        this.currDialogIndex = -1; // 或者其他适合的默认状态  
+                    }  
+                } else if (index < this.currDialogIndex) {  
+                    // 更新当前对话索引  
+                    this.currDialogIndex--;  
+                }  
+
+                // 清除对应对话的消息存储  
+                localStorage.removeItem(dialogName);  
+                localStorage.setItem('dialogs', JSON.stringify(this.dialogs));  
+
+                // 如果没有剩余对话时清空 localStorage  
+                if (this.dialogs.length === 0) {  
+                    localStorage.clear();  
+                }  
+            }  
+        },  
+
+        async selectDialog(index) {  
+            // 检查 index 的有效性  
+            if (index < 0 || index >= this.dialogs.length) {  
+                console.error("Invalid dialog index");  
+                return;  
+            }  
+
+            // 保存当前对话的消息到 localStorage  
+            localStorage.setItem(this.dialogs[this.currDialogIndex], JSON.stringify(this.messages));  
+            this.messages = []; // 清空之前的消息  
+            this.currDialogIndex = index;  
+            localStorage.setItem('currDialogIndex', this.currDialogIndex);  
+
+            // 获取新对话的消息  
+            const storedMessages = localStorage.getItem(this.dialogs[this.currDialogIndex]);  
+            this.messages = storedMessages ? JSON.parse(storedMessages) : [];  
+
+            this.$nextTick(() => {  
+                const chatMessages = this.$refs.chatMessages;  
+                chatMessages.scrollTop = chatMessages.scrollHeight;  
+            });  
+        },  
+
+        async sendMessage() {  
+            const userMessage = this.newMessage.trim();  
+            if (userMessage) {  
+                this.messages.push({ user: userMessage, ai: '发送中...' }); // 添加用户消息  
+                this.newMessage = ''; // 清空输入框  
+
+                // 滚动到最新消息  
+                this.$nextTick(() => {  
+                    const chatMessages = this.$refs.chatMessages;  
+                    chatMessages.scrollTop = chatMessages.scrollHeight;  
+                });  
+
+                try {  
+                    const response = await fetch('https://232d-47-109-131-189.ngrok-free.app//call_agent', {  
+                        method: 'POST',  
+                        headers: {  
+                            'Content-Type': 'application/json'  
+                        },  
+                        body: JSON.stringify({ prompt: userMessage })  
+                    });  
+
+                    if (!response.ok) {  
+                        throw new Error('网络响应不合法');  
+                    }  
+
+                    const data = await response.json();  
+                    this.messages[this.messages.length - 1].ai = data.output.text;  
+
+                    // 保存到 localStorage   
+                    localStorage.setItem(this.dialogs[this.currDialogIndex], JSON.stringify(this.messages));  
+                } catch (error) {  
+                    console.error('请求失败:', error);  
+                    this.messages[this.messages.length - 1].ai = '请求失败: ' + error.message; // 显示错误信息  
+                }  
+            }  
+        }  
+    }  
+};
+```
+
+总之，总算解决这个烦人的问题了。明天最后一天，解决一些素材问题。
