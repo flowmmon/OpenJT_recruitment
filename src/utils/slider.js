@@ -1,10 +1,10 @@
 // src/utils/slider.js  
 
 const images = [  
-    "/src/assets/slider_0.png",  
-    "/src/assets/slider_1.png",  
-    "/src/assets/slider_2.png",  
-    "/src/assets/slider_3.png",  
+    "/src/assets/slider_0.jpg",  
+    "/src/assets/slider_1.jpg",  
+    "/src/assets/slider_2.jpg",  
+    "/src/assets/slider_3.jpg",  
 ];  
 
 let currentIndex = 0;  

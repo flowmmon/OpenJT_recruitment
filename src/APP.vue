@@ -29,8 +29,8 @@
             <div class="slider_wrapper">  
                 <aside class="slider_leftsider">  
                     <div class="leftslider_imgwrapper">  
-                        <img class="slider_leftsiderimg" alt="slider_last_pic" :src="images[(currentIndex - 1 + images.length) % images.length]">  
-                    </div>  
+                        <img class="slider_leftsiderimg" alt="slider_last_pic" :src="images[(currentIndex - 1 + images.length) % images.length]" >
+                    </div>
                 </aside>  
                 <div class="slider_banner">  
                     <ul class="slider_list">  
@@ -68,13 +68,13 @@
                             {{ section.title }}  
                         </div>  
                         <div v-for="(content, index) in sections" :key="index" class="vision_content" :class="{ active: currentSection === index }">  
-                        {{ content.text }}  
+                            {{ content.text }}  
                         </div>  
                     </div>  
                     <div class="vision_imgwrapper">  
-                        <img alt="栏目图片">  
+                        <img :src="visionImages[currentSection]" alt="Vision Image" />  
                     </div>  
-                </div>  
+                </div>   
             </div>  
         </main>  
         <footer>  
@@ -84,9 +84,9 @@
                         <div class="footer_detail_wrapper">
                         <div class="footer_series_wrapper">产品</div>
                         <div class="series_content_wrapper">
-                            <p class="smartChat_A1_preview"><a>smartChat A1 preview</a></p>
-                            <p class="smartChat_v4"><a>smartChat 4</a></p>
-                            <p class="smartChat_lagacy"><a>其他版本smartChat</a></p>
+                            <p class="smartChat_A1_preview"><a>JoTangLM o1</a></p>
+                            <p class="smartChat_v4"><a>JoTangLM 4</a></p>
+                            <p class="smartChat_lagacy"><a>其他版本JoTangLM</a></p>
                         </div>
                     </div>
                     <div class="footer_detail_wrapper">
@@ -135,47 +135,52 @@
   </template>  
   
   <script>  
-  import { goToSlide, initSlider } from './utils/slider'; 
-  import { initVisionSelection } from './utils/vision_selector'; 
-  
-  export default {  
-      data() {  
-          return {  
-              images: [  
-                  "/src/assets/slider_0.png",  
-                  "/src/assets/slider_1.png",  
-                  "/src/assets/slider_2.png",  
-                  "/src/assets/slider_3.png"  
-              ],  
-              currentIndex: 0,  
-              sections: [  
-                  { title: "Section 1", text: "Content for section 1" },  
-                  { title: "Section 2", text: "Content for section 2" },
-                  { title: "Section 3", text: "Content for section 3" },  
-              ],  
-              currentSection: 0  
-          };  
-      },  
-      mounted() {  
-          initSlider(); // 初始化滑块功能 
-          initVisionSelection(); 
-      },  
-      methods: {  
-          goToSlide(index) {  
-              this.currentIndex = index;  
-              goToSlide(index); // 调用外部函数以更新状态  
-          },  
-          toggleContent(index) {  
-            this.currentSection = this.currentSection === index ? -1 : index;  
-          }
-      }
-  };  
-  </script>  
-  
-  <style scoped>  
-  @import './assets/body.css';  
-  @import './assets/nav.css';  
-  @import './assets/slider.css';  
-  @import './assets/vision.css';  
-  @import './assets/footer.css';  
-  </style>
+import { goToSlide, initSlider } from './utils/slider';   
+import { initVisionSelection } from './utils/vision_selector';   
+
+export default {  
+    data() {  
+        return {  
+            images: [  
+                "/src/assets/slider_0.jpg",  
+                "/src/assets/slider_1.jpg",  
+                "/src/assets/slider_2.jpg",  
+                "/src/assets/slider_3.jpg"  
+            ],   
+            visionImages: [  
+                "/src/assets/vision_0.jpg",  
+                "/src/assets/vision_1.jpg",  
+                "/src/assets/vision_2.jpg"  
+            ],   
+            currentIndex: 0,   
+            sections: [  
+                { title: "智能对话，畅享未来", text: "在 OpenJT，我们的聊天机器人 JoTangLM 让沟通变得简单而高效。无论是客户服务还是日常交流，JoTangLM 都能与您无缝对接，提升互动体验。" },  
+                { title: "让每一次对话都充满价值", text: "JoTangLM 不仅仅是一个聊天机器人，它是您业务增长的助推器。通过智能分析和深度学习，它能够理解您的需求，提供个性化的建议和解决方案。" },  
+                { title: "开启智能沟通的新篇章", text: "加入 OpenJT，体验 JoTangLM 带来的革新。我们的技术让每一次对话都成为提升效率和创造价值的机会，助您在竞争中脱颖而出。" },  
+            ],  
+            currentSection: 0  
+        };  
+    },  
+    mounted() {  
+        initSlider(); // 初始化滑块功能   
+        initVisionSelection();    
+    },  
+    methods: {  
+        goToSlide(index) {  
+            this.currentIndex = index;  
+            goToSlide(index); // 调用外部函数以更新状态  
+        },  
+        toggleContent(index) {  
+            this.currentSection = this.currentSection === index ? this.currentSection : index;  
+        },     
+    }  
+};  
+</script>  
+
+<style scoped>  
+@import './assets/body.css';  
+@import './assets/nav.css';  
+@import './assets/slider.css';  
+@import './assets/vision.css';  
+@import './assets/footer.css';  
+</style> 

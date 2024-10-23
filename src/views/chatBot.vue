@@ -82,18 +82,20 @@ export default {
 
         // 选择当前对话  
         this.selectDialog(this.currDialogIndex);  
+
+        console.log(this.currDialogIndex);
+        console.log(this.dialogs);
+        console.log(localStorage.getItem(this.dialogs[this.currDialogIndex]));
     },  
     methods: {  
         loadFromLocalStorage() {  
             const storedDialogs = localStorage.getItem('dialogs');  
-            const storedMessages = localStorage.getItem(this.dialogs[this.currDialogIndex]); // 根据当前对话索引加载消息  
             const storedCurrDialogIndex = localStorage.getItem('currDialogIndex');  
 
             // 恢复对话列表  
-            if (storedDialogs) {  
+         if (storedDialogs) {  
                 this.dialogs = JSON.parse(storedDialogs);  
             } else {  
-                // 如果没有存储的对话，则初始化一个对话  
                 this.dialogs = ["对话 1"];  
                 localStorage.setItem('dialogs', JSON.stringify(this.dialogs));  
             }  
@@ -101,18 +103,14 @@ export default {
             // 恢复当前对话索引  
             if (storedCurrDialogIndex !== null) {  
                 this.currDialogIndex = parseInt(storedCurrDialogIndex, 10);  
+                const storedMessages = localStorage.getItem(this.dialogs[this.currDialogIndex]);  
+                this.messages = storedMessages ? JSON.parse(storedMessages) : [];  // 直接去恢复当前索引的消息  
             } else {  
                 this.currDialogIndex = 0;  
                 localStorage.setItem('currDialogIndex', this.currDialogIndex);  
+                this.messages = [];  // 如果没有索引，初始化为空  
             }  
-
-            // 恢复当前对话的消息  
-            if (storedMessages) {  
-                this.messages = JSON.parse(storedMessages);  
-            } else {  
-                this.messages = []; // 如果没有消息，则初始化为空  
-            }  
-        },  
+        },
 
         convertMarkdownToHtml(markdown) {  
             return marked(markdown);  
@@ -129,15 +127,20 @@ export default {
         addDialog() {  
             if (this.dialogs.length < 10) {  
                 const newDialogName = `对话 ${this.dialogs.length + 1}`;  
-                this.dialogs.push(newDialogName);  
-                this.selectDialog(this.dialogs.length - 1);  
+                this.dialogs.push(newDialogName); 
                 localStorage.setItem('dialogs', JSON.stringify(this.dialogs));  
+                console.log(this.currDialogIndex);
+                console.log(this.dialogs);
+                console.log(localStorage.getItem(this.dialogs[this.currDialogIndex]));
+                this.selectDialog(this.dialogs.length - 1);  
+                
+                
             }  
         },  
 
         removeDialog(index) {  
             if (this.dialogs.length > 0) {  
-                if (index < 0 || index >= this.dialogs.length) {  
+                if (index < 0 || index >= 10) {  
                     console.error("Index out of bounds");  
                     return;  
                 }  
@@ -168,28 +171,26 @@ export default {
             }  
         },  
 
-        async selectDialog(index) {  
+        async selectDialog(index) {
+            console.log(this.currDialogIndex);
+                console.log(this.dialogs);
+                console.log(localStorage.getItem(this.dialogs[this.currDialogIndex]));  
             // 检查 index 的有效性  
-            if (index < 0 || index >= this.dialogs.length) {  
+            if (index < 0 || index >= 10) {  
                 console.error("Invalid dialog index");  
                 return;  
             }  
 
             // 保存当前对话的消息到 localStorage  
-            localStorage.setItem(this.dialogs[this.currDialogIndex], JSON.stringify(this.messages));  
-            this.messages = []; // 清空之前的消息  
-            this.currDialogIndex = index;  
-            localStorage.setItem('currDialogIndex', this.currDialogIndex);  
+            localStorage.setItem(this.dialogs[this.currDialogIndex], JSON.stringify(this.messages)); // 先保存当前对话的消息  
+            this.messages = [];  // 清空之前的消息  
+            this.currDialogIndex = index;  // 更新当前对话索引  
+            localStorage.setItem('currDialogIndex', this.currDialogIndex);  // 存储当前对话索引  
 
             // 获取新对话的消息  
             const storedMessages = localStorage.getItem(this.dialogs[this.currDialogIndex]);  
-            this.messages = storedMessages ? JSON.parse(storedMessages) : [];  
-
-            this.$nextTick(() => {  
-                const chatMessages = this.$refs.chatMessages;  
-                chatMessages.scrollTop = chatMessages.scrollHeight;  
-            });  
-        },  
+            this.messages = storedMessages ? JSON.parse(storedMessages) : [];  // 恢复新对话的消息  
+        } , 
 
         async sendMessage() {  
             const userMessage = this.newMessage.trim();  
@@ -221,6 +222,9 @@ export default {
 
                     // 保存到 localStorage   
                     localStorage.setItem(this.dialogs[this.currDialogIndex], JSON.stringify(this.messages));  
+                    console.log(this.currDialogIndex);
+                console.log(this.dialogs);
+                console.log(localStorage.getItem(this.dialogs[this.currDialogIndex]));
                 } catch (error) {  
                     console.error('请求失败:', error);  
                     this.messages[this.messages.length - 1].ai = '请求失败: ' + error.message; // 显示错误信息  
@@ -240,5 +244,7 @@ export default {
 }  
 .dialog-item input[type="button"] {  
     margin-right: 10px;  
-}  
+}
+
+
 </style>
